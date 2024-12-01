@@ -1,0 +1,9 @@
+package com.encoway.qa.adventofcode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DayOneDTO {
+    static List<Integer> firstList = new ArrayList<>();
+    static List<Integer> secondList = new ArrayList<>();
+}
