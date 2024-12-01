@@ -1,0 +1,34 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DayOne {
+    
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+    public static int readDataFromFile(String filePath) {
+        int result = 0;
+        List<Integer> firstList = new ArrayList<>();
+        List<Integer> secondList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] numbers = line.split("\\s+");
+                firstList.add(Integer.parseInt(numbers[0]));
+                secondList.add(Integer.parseInt(numbers[1]));
+            }
+            firstList.sort(Integer::compareTo);
+            secondList.sort(Integer::compareTo);
+            for (int i = 0; i < firstList.size(); i++) {
+                System.out.println(firstList.get(i) + " - " + secondList.get(i) + " = " + (firstList.get(i) - secondList.get(i)));
+                result += Math.abs(firstList.get(i) - secondList.get(i));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+}
