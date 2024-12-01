@@ -1,34 +1,41 @@
+package com.encoway.qa.adventofcode;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DayOne {
-    
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-    public static int readDataFromFile(String filePath) {
-        int result = 0;
-        List<Integer> firstList = new ArrayList<>();
-        List<Integer> secondList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] numbers = line.split("\\s+");
-                firstList.add(Integer.parseInt(numbers[0]));
-                secondList.add(Integer.parseInt(numbers[1]));
-            }
-            firstList.sort(Integer::compareTo);
-            secondList.sort(Integer::compareTo);
-            for (int i = 0; i < firstList.size(); i++) {
-                System.out.println(firstList.get(i) + " - " + secondList.get(i) + " = " + (firstList.get(i) - secondList.get(i)));
-                result += Math.abs(firstList.get(i) - secondList.get(i));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AdventOfCode {
+
+	public static void main(String[] args) {
+		readDataFromFile("src/main/resources/InputDay1");
+		dayOnefirst(DayOneDTO.firstList, DayOneDTO.secondList);
+	}
+
+	public static void readDataFromFile(String filePath) {
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] numbers = line.split("\\s+");
+				DayOneDTO.firstList.add(Integer.parseInt(numbers[0]));
+				DayOneDTO.secondList.add(Integer.parseInt(numbers[1]));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void dayOnefirst(List<Integer> firstList, List<Integer> secondList) {
+		int result = 0;
+
+		firstList.sort(Integer::compareTo);
+		secondList.sort(Integer::compareTo);
+		for (int i = 0; i < firstList.size(); i++) {
+			result += Math.abs(firstList.get(i) - secondList.get(i));
+		}
+		System.out.println("Result: " + result);
+	}
 }
