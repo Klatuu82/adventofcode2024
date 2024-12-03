@@ -6,6 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AdventOfCode {
 
 	public static void main(String[] args) {
-		Day2.run();
+		Day3.run();
 	}
 }
