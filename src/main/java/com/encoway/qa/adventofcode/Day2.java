@@ -10,23 +10,44 @@ public class Day2 {
     public static void run() {
         System.out.println("Day 2");
         extractList(Utils.readDataFromFile("src/main/resources/InputDay2"));
-        System.out.println("Result: " + isSave());
+        System.out.println("Result first: " + countSave());
+        System.out.println("Result second: " + countSubSave());
     }
 
-
-    public static int isSave() {
+    public static int countSave() {
         int count = 0;
         for (List<Integer> innerList : inputList) {
-            count += isMonotonic(innerList) ? 1 : 0;
+            count += isSave(innerList) ? 1 : 0;
         }
         return count;
     }
 
-    public static boolean isMonotonic(List<Integer> list) {
+    public static int countSubSave() {
+        int count = 0;
+        for (List<Integer> innerList : inputList) {
+            count += isSubListSave(innerList) ? 1 : 0;
+        }
+        return count;
+    }
+
+    public static boolean isSave(List<Integer> list) {
         boolean increasing = isIncreasing(list);
         boolean decreasing = isDecreasing(list);
-        boolean adjacent = !isAdjacent(list);
-        return !adjacent && (!increasing || !decreasing);
+        boolean adjacent = isAdjacent(list);
+        return adjacent && (increasing ^ decreasing);
+    }
+
+    public static boolean isSubListSave(List<Integer> list) {
+        boolean result = false;
+        for (int i = 0; i < list.size(); i++) {
+            List<Integer> subList = new LinkedList<>(list);
+            subList.remove(i);
+            result = isSave(subList);
+            if (result) {
+                break;
+            }
+        }
+        return result;
     }
 
     public static boolean isIncreasing(List<Integer> list){
@@ -52,10 +73,10 @@ public class Day2 {
     }
 
     public static boolean isAdjacent(List<Integer> list){
-        boolean result = false;
+        boolean result = true;
         for (int i = 0; i < list.size() - 1; i++) {
-            if (abs(list.get(i) - list.get(i + 1)) <= 3 || abs(list.get(i) - list.get(i + 1)) > 0) {
-                result = true;
+            if (abs(list.get(i) - list.get(i + 1)) <= 0 || abs(list.get(i) - list.get(i + 1)) > 3) {
+                result = false;
                 break;
             }
         }
